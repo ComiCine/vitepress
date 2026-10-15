@@ -103,6 +103,8 @@ const socialLinks = computed<any[]>(() => (theme.value as any).socialLinks ?? []
 
 const menuOpen = ref(false)
 const langRoot = ref<HTMLElement | null>(null)
+const navMenuOpen = ref(false)
+const navMenuRoot = ref<HTMLElement | null>(null)
 
 function toggleAppearance() {
   isDark.value = !isDark.value
@@ -128,20 +130,34 @@ function onLangLeave() {
 
 function toggleMenu() {
   menuOpen.value = !menuOpen.value
+  navMenuOpen.value = false
 }
 
 function closeMenu() {
   menuOpen.value = false
 }
 
+function toggleNavMenu() {
+  navMenuOpen.value = !navMenuOpen.value
+  menuOpen.value = false
+}
+
+function closeNavMenu() {
+  navMenuOpen.value = false
+}
+
 function onDocumentClick(event: MouseEvent) {
   if (menuOpen.value && langRoot.value && !langRoot.value.contains(event.target as Node)) {
     closeMenu()
+  }
+  if (navMenuOpen.value && navMenuRoot.value && !navMenuRoot.value.contains(event.target as Node)) {
+    closeNavMenu()
   }
 }
 
 function goLang(code: string) {
   closeMenu()
+  closeNavMenu()
   const target = pathForLang(code)
   if (target !== route.path) router.go(target)
 }
@@ -237,7 +253,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick))
             </a>
           </div>
         </div>
-        <span class="nav-divider" />
+        <span class="nav-divider nav-divider-mobile" />
 
         <button
           type="button"
@@ -279,12 +295,56 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick))
             </span>
           </span>
         </button>
-        <span class="nav-divider" />
+        <span class="nav-divider nav-divider-mobile" />
+
+        <div ref="navMenuRoot" class="nav-mobile-menu">
+          <button
+            type="button"
+            class="icon-btn nav-menu-button"
+            aria-haspopup="true"
+            :aria-expanded="navMenuOpen"
+            :aria-label="(theme as any).navMenuLabel || 'Menu'"
+            @click.stop="toggleNavMenu"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div class="nav-menu" :class="{ open: navMenuOpen }" role="menu">
+            <a
+              v-for="item in navItems"
+              :key="item.link"
+              class="nav-menu-item"
+              :href="item.link"
+              role="menuitem"
+            >
+              <span>{{ item.text }}</span>
+              <svg
+                v-if="isExternal(item.link)"
+                class="nav-external"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path d="M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5H9z" />
+              </svg>
+            </a>
+          </div>
+        </div>
 
         <a
           v-for="(link, index) in socialLinks"
           :key="index"
-          class="icon-btn"
+          class="icon-btn nav-social-link"
           :href="link.link"
           target="_blank"
           rel="noopener noreferrer"

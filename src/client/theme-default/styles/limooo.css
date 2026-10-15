@@ -180,6 +180,16 @@ html[lang^='en'] {
   flex-shrink: 0;
 }
 
+.VPLimoooNav .nav-divider-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .VPLimoooNav .nav-divider-mobile {
+    display: block;
+  }
+}
+
 @media (min-width: 768px) {
   .VPLimoooNav .nav-divider {
     display: block;
@@ -221,6 +231,29 @@ html[lang^='en'] {
   width: 18px;
   height: 18px;
   fill: currentColor;
+}
+
+@media (max-width: 767px) {
+  .VPLimoooNav .nav-social-link {
+    display: none;
+  }
+}
+
+.VPLimoooNav .nav-mobile-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .VPLimoooNav .nav-mobile-menu {
+    display: none;
+  }
+}
+
+.VPLimoooNav .nav-menu-button svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* ── 语言切换（主站 .lang-btn + .theme-menu） ── */
@@ -306,6 +339,57 @@ html[lang^='en'] {
 .VPLimoooNav .lang-option.selected {
   opacity: 1;
   background: var(--lm-highlight);
+}
+
+.VPLimoooNav .nav-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 120px;
+  padding: 4px;
+  background: var(--lm-panel-bg);
+  border: 1px solid var(--lm-line);
+  border-radius: var(--lm-radius-md);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px) scale(0.92);
+  transform-origin: top right;
+  transition:
+    opacity 150ms var(--lm-ease-out),
+    transform 150ms var(--lm-ease-out),
+    visibility 150ms;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+}
+
+.VPLimoooNav .nav-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.VPLimoooNav .nav-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  margin: 2px 0;
+  border-radius: var(--lm-radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: calc(0.05em * var(--lm-ls-scale));
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--lm-text);
+  opacity: 0.75;
+  transition: background 150ms var(--lm-ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .VPLimoooNav .nav-menu-item:hover {
+    opacity: 1;
+    background: var(--lm-highlight);
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -465,7 +549,8 @@ html[lang^='en'] {
 
 @media (max-width: 559px) {
   .VPLimoooFooter .footer-text > .footer-copyright {
-    flex-basis: 100%;
+    flex: 0 0 100%;
+    white-space: nowrap;
   }
 
   .VPLimoooFooter .footer-text > .footer-copyright + .footer-item::before {
