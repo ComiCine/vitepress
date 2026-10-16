@@ -295,6 +295,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick))
             </span>
           </span>
         </button>
+        <span class="nav-divider" />
         <span class="nav-divider nav-divider-mobile" />
 
         <div ref="navMenuRoot" class="nav-mobile-menu">
