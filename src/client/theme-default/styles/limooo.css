@@ -184,6 +184,10 @@ html[lang^='en'] {
   display: none;
 }
 
+.VPLimoooNav .nav-divider.nav-divider-lang-theme {
+  display: block;
+}
+
 @media (max-width: 767px) {
   .VPLimoooNav .nav-divider-mobile {
     display: block;

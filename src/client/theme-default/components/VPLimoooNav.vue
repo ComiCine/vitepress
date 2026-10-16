@@ -253,7 +253,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick))
             </a>
           </div>
         </div>
-        <span class="nav-divider nav-divider-mobile" />
+        <span class="nav-divider nav-divider-lang-theme" />
 
         <button
           type="button"
