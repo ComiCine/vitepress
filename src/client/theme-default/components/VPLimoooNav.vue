@@ -56,9 +56,6 @@ function langOfPath(path: string): string {
 }
 
 const currentLang = computed(() => langOfPath(route.path))
-const currentLangLabel = computed(
-  () => languages.value.find((lang) => lang.code === currentLang.value)?.label ?? currentLang.value
-)
 
 function pathForLang(code: string): string {
   const segments = route.path.split('?')[0].split('/').filter(Boolean)
@@ -399,16 +396,25 @@ onBeforeUnmount(() => {
           <button
             type="button"
             class="nav-screen-section-toggle"
+            :aria-label="(theme as any).langMenuLabel || 'Language'"
             :aria-expanded="langAccordionOpen"
             aria-controls="nav-screen-language-list"
             @click="langAccordionOpen = !langAccordionOpen"
           >
-            <span>{{ currentLangLabel }}</span>
+            <svg class="nav-screen-language-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6" />
+            </svg>
             <svg class="nav-screen-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="m6 9 6 6 6-6" />
             </svg>
           </button>
-          <ul v-show="langAccordionOpen" id="nav-screen-language-list" class="nav-screen-language-list">
+          <ul
+            id="nav-screen-language-list"
+            class="nav-screen-language-list"
+            :class="{ open: langAccordionOpen }"
+            :aria-hidden="!langAccordionOpen"
+            :inert="!langAccordionOpen"
+          >
             <li v-for="lang in languages" :key="lang.code">
               <a
                 class="nav-screen-language-link"
