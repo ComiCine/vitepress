@@ -5,9 +5,10 @@
  * 这是 fork 定制件：不使用 VitePress 自带的 VPNavBar。
  * 品牌字「Limooo」用 Baloo 2，不放 logo 图片。
  */
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useData, useRoute, useRouter } from 'vitepress'
 
+import { useNav } from '../composables/nav'
 import VPIcon from './VPIcon.vue'
 
 interface LangItem {
@@ -20,6 +21,12 @@ interface LangItem {
 const { theme, isDark } = useData()
 const route = useRoute()
 const router = useRouter()
+const {
+  isScreenOpen: navMenuOpen,
+  screenTriggerEl,
+  toggleScreen,
+  closeScreen
+} = useNav()
 
 const limooo = computed<any>(() => (theme.value as any).limooo ?? {})
 const languages = computed<LangItem[]>(() => limooo.value.languages ?? [])
@@ -49,6 +56,9 @@ function langOfPath(path: string): string {
 }
 
 const currentLang = computed(() => langOfPath(route.path))
+const currentLangLabel = computed(
+  () => languages.value.find((lang) => lang.code === currentLang.value)?.label ?? currentLang.value
+)
 
 function pathForLang(code: string): string {
   const segments = route.path.split('?')[0].split('/').filter(Boolean)
@@ -103,8 +113,8 @@ const socialLinks = computed<any[]>(() => (theme.value as any).socialLinks ?? []
 
 const menuOpen = ref(false)
 const langRoot = ref<HTMLElement | null>(null)
-const navMenuOpen = ref(false)
-const navMenuRoot = ref<HTMLElement | null>(null)
+const navMenuButton = ref<HTMLButtonElement | null>(null)
+const langAccordionOpen = ref(false)
 
 function toggleAppearance() {
   isDark.value = !isDark.value
@@ -138,20 +148,30 @@ function closeMenu() {
 }
 
 function toggleNavMenu() {
-  navMenuOpen.value = !navMenuOpen.value
   menuOpen.value = false
+  langAccordionOpen.value = false
+  toggleScreen()
 }
 
 function closeNavMenu() {
-  navMenuOpen.value = false
+  closeScreen()
+  langAccordionOpen.value = false
 }
 
 function onDocumentClick(event: MouseEvent) {
   if (menuOpen.value && langRoot.value && !langRoot.value.contains(event.target as Node)) {
     closeMenu()
   }
-  if (navMenuOpen.value && navMenuRoot.value && !navMenuRoot.value.contains(event.target as Node)) {
+}
+
+function onDocumentKeydown(event: KeyboardEvent) {
+  if (event.key !== 'Escape') return
+  if (navMenuOpen.value) {
+    event.preventDefault()
     closeNavMenu()
+    navMenuButton.value?.focus()
+  } else if (menuOpen.value) {
+    closeMenu()
   }
 }
 
@@ -162,8 +182,22 @@ function goLang(code: string) {
   if (target !== route.path) router.go(target)
 }
 
-onMounted(() => document.addEventListener('click', onDocumentClick))
-onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick))
+watch(navMenuOpen, (open) => {
+  document.documentElement.classList.toggle('nav-screen-open', open)
+})
+
+onMounted(() => {
+  document.documentElement.classList.toggle('nav-screen-open', navMenuOpen.value)
+  screenTriggerEl.value = navMenuButton.value
+  document.addEventListener('click', onDocumentClick)
+  document.addEventListener('keydown', onDocumentKeydown)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('click', onDocumentClick)
+  document.removeEventListener('keydown', onDocumentKeydown)
+  document.documentElement.classList.remove('nav-screen-open')
+  if (screenTriggerEl.value === navMenuButton.value) screenTriggerEl.value = null
+})
 </script>
 
 <template>
@@ -296,50 +330,23 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick))
           </span>
         </button>
         <span class="nav-divider" />
-        <span class="nav-divider nav-divider-mobile" />
-
-        <div ref="navMenuRoot" class="nav-mobile-menu">
+        <div class="nav-mobile-menu">
           <button
+            ref="navMenuButton"
             type="button"
             class="icon-btn nav-menu-button"
-            aria-haspopup="true"
             :aria-expanded="navMenuOpen"
+            aria-controls="nav-screen"
             :aria-label="(theme as any).navMenuLabel || 'Menu'"
+            :class="{ active: navMenuOpen }"
             @click.stop="toggleNavMenu"
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+            <span class="nav-menu-icon" aria-hidden="true">
+              <span class="top" />
+              <span class="middle" />
+              <span class="bottom" />
+            </span>
           </button>
-          <div class="nav-menu" :class="{ open: navMenuOpen }" role="menu">
-            <a
-              v-for="item in navItems"
-              :key="item.link"
-              class="nav-menu-item"
-              :href="item.link"
-              role="menuitem"
-            >
-              <span>{{ item.text }}</span>
-              <svg
-                v-if="isExternal(item.link)"
-                class="nav-external"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path d="M0 0h24v24H0V0z" fill="none" />
-                <path d="M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5H9z" />
-              </svg>
-            </a>
-          </div>
         </div>
 
         <a
@@ -353,6 +360,107 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick))
         >
           <VPIcon :icon="String(link.icon).includes(':') ? link.icon : `simple-icons:${link.icon}`" />
         </a>
+      </div>
+    </div>
+
+    <div
+      id="nav-screen"
+      class="nav-screen"
+      :class="{ open: navMenuOpen }"
+      :aria-hidden="!navMenuOpen"
+      :inert="!navMenuOpen"
+      @click.self="closeNavMenu"
+    >
+      <div class="nav-screen-container">
+        <nav class="nav-screen-links" :aria-label="(theme as any).navMenuLabel || 'Main Navigation'">
+          <a
+            v-for="item in navItems"
+            :key="item.link"
+            class="nav-screen-link"
+            :class="{ active: isActive(item) }"
+            :href="item.link"
+            @click="closeNavMenu"
+          >
+            <span>{{ item.text }}</span>
+            <svg
+              v-if="isExternal(item.link)"
+              class="nav-external"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path d="M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5H9z" />
+            </svg>
+          </a>
+        </nav>
+
+        <section v-if="languages.length > 1" class="nav-screen-languages">
+          <button
+            type="button"
+            class="nav-screen-section-toggle"
+            :aria-expanded="langAccordionOpen"
+            aria-controls="nav-screen-language-list"
+            @click="langAccordionOpen = !langAccordionOpen"
+          >
+            <span>{{ currentLangLabel }}</span>
+            <svg class="nav-screen-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+          <ul v-show="langAccordionOpen" id="nav-screen-language-list" class="nav-screen-language-list">
+            <li v-for="lang in languages" :key="lang.code">
+              <a
+                class="nav-screen-language-link"
+                :class="{ selected: lang.code === currentLang }"
+                :href="pathForLang(lang.code)"
+                @click.prevent="goLang(lang.code)"
+              >
+                <span v-if="lang.flag" class="lang-flag">{{ lang.flag }}</span>
+                <span>{{ lang.label }}</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <div class="nav-screen-appearance">
+          <span>{{ (theme as any).darkModeSwitchLabel || 'Appearance' }}</span>
+          <button
+            type="button"
+            class="appearance-switch"
+            role="switch"
+            :aria-checked="isDark ? 'true' : 'false'"
+            :aria-label="(theme as any).darkModeSwitchLabel || 'Appearance'"
+            @click="toggleAppearance"
+          >
+            <span class="appearance-check">
+              <span class="appearance-icon">
+                <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                </svg>
+                <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                </svg>
+              </span>
+            </span>
+          </button>
+        </div>
+
+        <div v-if="socialLinks.length" class="nav-screen-socials">
+          <a
+            v-for="(link, index) in socialLinks"
+            :key="index"
+            class="nav-screen-social-link"
+            :href="link.link"
+            target="_blank"
+            rel="noopener noreferrer"
+            :aria-label="link.ariaLabel || link.icon"
+            @click="closeNavMenu"
+          >
+            <VPIcon :icon="String(link.icon).includes(':') ? link.icon : `simple-icons:${link.icon}`" />
+          </a>
+        </div>
       </div>
     </div>
   </div>
