@@ -4,7 +4,7 @@ import { computed, provide, watchEffect } from 'vue'
 
 import { useData } from '../composables/data'
 import { navInjectionKey, useNav } from '../composables/nav'
-import VPLimoooNav from './VPLimoooNav.vue'
+import VPComiCineNav from './VPComiCineNav.vue'
 
 const { closeScreen } = useNav()
 const { frontmatter } = useData()
@@ -25,10 +25,10 @@ watchEffect(() => {
 <template>
   <header v-if="hasNavbar" class="VPNav">
     <!--
-      Limooo fork：页头改为与主站 base.html 的 nav.site-nav 一致的结构。
+      ComiCine fork：页头改为与主站 base.html 的 nav.site-nav 一致的结构。
       原来的 VPNavBar / VPNavScreen 不再渲染；移动端菜单由 VPLocalNav 提供。
     -->
-    <VPLimoooNav />
+    <VPComiCineNav />
   </header>
 </template>
 

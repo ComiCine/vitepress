@@ -3,7 +3,7 @@ import { computed, provide, useSlots } from 'vue'
 
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPContent from './components/VPContent.vue'
-import VPLimoooFooter from './components/VPLimoooFooter.vue'
+import VPComiCineFooter from './components/VPComiCineFooter.vue'
 import VPLocalNav from './components/VPLocalNav.vue'
 import VPNav from './components/VPNav.vue'
 import VPSidebar from './components/VPSidebar.vue'
@@ -90,8 +90,8 @@ provide(layoutInfoInjectionKey, { heroImageSlotExists })
       <template #aside-ads-after><slot name="aside-ads-after" /></template>
     </VPContent>
 
-    <!-- Limooo fork：页脚改用与主站 _footer.html 一致的结构 -->
-    <VPLimoooFooter :inert="isScreenOpen" />
+    <!-- ComiCine fork：页脚改用与主站 _footer.html 一致的结构 -->
+    <VPComiCineFooter :inert="isScreenOpen" />
     <slot name="layout-bottom" />
   </div>
   <Content v-else />

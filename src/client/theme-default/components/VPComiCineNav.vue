@@ -1,9 +1,9 @@
 <script setup lang="ts">
 /**
- * Limooo 页头 —— 结构/样式对齐主站 Flask/src/templates/base.html 的 nav.site-nav。
+ * ComiCine header — structure and styling match the main site navigation.
  *
- * 这是 fork 定制件：不使用 VitePress 自带的 VPNavBar。
- * 品牌字「Limooo」用 Baloo 2，不放 logo 图片。
+ * This fork component replaces VitePress default navigation.
+ * The shared SVG keeps the brand mark consistent across the main and docs sites.
  */
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useData, useRoute, useRouter } from 'vitepress'
@@ -28,8 +28,8 @@ const {
   closeScreen
 } = useNav()
 
-const limooo = computed<any>(() => (theme.value as any).limooo ?? {})
-const languages = computed<LangItem[]>(() => limooo.value.languages ?? [])
+const comicine = computed<any>(() => (theme.value as any).comicine ?? (theme.value as any).limooo ?? {})
+const languages = computed<LangItem[]>(() => comicine.value.languages ?? [])
 const defaultLang = computed(
   () =>
     languages.value.find((l) => l.default)?.code ??
@@ -40,26 +40,29 @@ const defaultLang = computed(
 const langCodes = computed(() => languages.value.map((l) => l.code))
 
 /**
- * themeConfig.limooo.langSegmentAlways：内容页路径是否**总是**带语言段
+ * themeConfig.comicine.langSegmentAlways：内容页路径是否**总是**带语言段
  * （含默认语言，如 /video-platform/zh-cn）。默认 false = 旧行为（默认语言无后缀）。
  * 首页永远是例外：`/` 就是默认语言。
  */
 const langSegmentAlways = computed(
-  () => (limooo.value as any).langSegmentAlways === true
+  () => (comicine.value as any).langSegmentAlways === true
 )
 
 /** 语言码是路径的最后一段：/video-platform/en-us；默认语言无后缀。 */
 function langOfPath(path: string): string {
-  const segments = path.split('?')[0].split('/').filter(Boolean)
-  const last = segments[segments.length - 1]
+  const pathname = path.split('?', 1)[0] ?? ''
+  const segments = pathname.split('/').filter(Boolean)
+  const last = segments.at(-1)
   return last && langCodes.value.includes(last) ? last : defaultLang.value
 }
 
 const currentLang = computed(() => langOfPath(route.path))
 
 function pathForLang(code: string): string {
-  const segments = route.path.split('?')[0].split('/').filter(Boolean)
-  if (segments.length && langCodes.value.includes(segments[segments.length - 1])) {
+  const pathname = route.path.split('?', 1)[0] ?? ''
+  const segments = pathname.split('/').filter(Boolean)
+  const last = segments.at(-1)
+  if (last && langCodes.value.includes(last)) {
     segments.pop()
   }
   const base = segments.length ? '/' + segments.join('/') : '/'
@@ -95,7 +98,7 @@ const navItems = computed<NavItem[]>(() => {
 
 function isActive(item: NavItem): boolean {
   const path = route.path
-  const link = item.link.split('?')[0]
+  const link = item.link.split('?', 1)[0] ?? item.link
   if (item.activeMatch) return new RegExp(item.activeMatch).test(path)
   if (/^https?:/.test(link)) return false
   if (link === '/') return path === '/' || path === `/${currentLang.value}`
@@ -198,10 +201,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="VPLimoooNav">
+  <div class="VPComiCineNav">
     <div class="nav-inner">
-      <a :href="brandLink" class="nav-brand-link" aria-label="Limooo">
-        <span class="nav-brand">Limooo</span>
+      <a :href="brandLink" class="nav-brand-link" aria-label="ComiCine">
+        <img class="nav-brand-logo" src="/comicine.svg?v=1" alt="" width="64" height="64">
       </a>
 
       <div class="nav-right">

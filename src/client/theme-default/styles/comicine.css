@@ -1,9 +1,9 @@
 /**
- * Limooo 品牌外观（页头 / 页脚）
+ * ComiCine 品牌外观（页头 / 页脚）
  *
- * 这是 Limooooo-Studio/vitepress fork 的定制部分：页头、页脚的结构与样式
+ * 这是 ComiCine/vitepress fork 的定制部分：页头、页脚的结构与样式
  * 逐条对齐主站 Flask/src/templates/base.html + _footer.html +
- * src/static/css/{tokens,base}.css，保证 docs.limooo.cn 与 limooo.cn 观感一致。
+ * src/static/css/{tokens,base}.css，保持文档站与主站的观感一致。
  *
  * 与主站的两处必要差异：
  *   1. 主站页面不滚动、页脚 position:fixed；文档站要滚动，页脚改为正常文档流。
@@ -50,7 +50,7 @@ html[lang^='en'] {
   }
 }
 
-/* ── 把 Limooo 令牌接进 VitePress 变量，让正文/侧栏与页头页脚同色 ── */
+/* ── 把 ComiCine 令牌接进 VitePress 变量，让正文/侧栏与页头页脚同色 ── */
 :root {
   --vp-nav-height: var(--lm-nav-height);
   --vp-c-bg: var(--lm-bg);
@@ -79,7 +79,7 @@ html[lang^='en'] {
 /* ══════════════════════════════════════════════════════════════
    页头（对应 base.html 的 nav.site-nav）
    ══════════════════════════════════════════════════════════════ */
-.VPLimoooNav {
+.VPComiCineNav {
   width: 100%;
   height: var(--lm-nav-height);
   background: var(--lm-bg);
@@ -87,7 +87,7 @@ html[lang^='en'] {
   pointer-events: auto;
 }
 
-.VPLimoooNav .nav-inner {
+.VPComiCineNav .nav-inner {
   display: flex;
   align-items: center;
   width: 100%;
@@ -98,20 +98,34 @@ html[lang^='en'] {
 }
 
 @media (min-width: 768px) {
-  .VPLimoooNav .nav-inner {
+  .VPComiCineNav .nav-inner {
     padding-inline: 2rem;
   }
 }
 
-/* 左上角品牌字：Baloo 2，与页脚 Limooo 同字体（主站 .nav-brand） */
-.VPLimoooNav .nav-brand-link {
+/* The header SVG follows the main site logo dimensions on desktop and mobile. */
+.VPComiCineNav .nav-brand-link {
   display: flex;
   align-items: center;
   flex-shrink: 0;
   text-decoration: none;
 }
 
-.VPLimoooNav .nav-brand {
+.VPComiCineNav .nav-brand-logo {
+  display: block;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+@media (max-width: 767px) {
+  .VPComiCineNav .nav-brand-logo {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.VPComiCineNav .nav-brand {
   font-family: 'Baloo 2', ui-rounded, system-ui, sans-serif;
   font-weight: 700;
   line-height: 1;
@@ -121,30 +135,30 @@ html[lang^='en'] {
 }
 
 @media (min-width: 768px) {
-  .VPLimoooNav .nav-brand {
+  .VPComiCineNav .nav-brand {
     font-size: 1.5rem;
   }
 }
 
-.VPLimoooNav .nav-right {
+.VPComiCineNav .nav-right {
   display: flex;
   align-items: center;
   margin-inline-start: auto;
 }
 
 /* 顶部导航链接（主站 .global-nav a） */
-.VPLimoooNav .global-nav {
+.VPComiCineNav .global-nav {
   display: none;
   align-items: center;
 }
 
 @media (min-width: 768px) {
-  .VPLimoooNav .global-nav {
+  .VPComiCineNav .global-nav {
     display: flex;
   }
 }
 
-.VPLimoooNav .nav-link {
+.VPComiCineNav .nav-link {
   display: inline-flex;
   align-items: center;
   padding: 0 12px;
@@ -157,12 +171,12 @@ html[lang^='en'] {
   white-space: nowrap;
 }
 
-.VPLimoooNav .nav-link.active,
-.VPLimoooNav .nav-link:hover {
+.VPComiCineNav .nav-link.active,
+.VPComiCineNav .nav-link:hover {
   color: var(--lm-accent);
 }
 
-.VPLimoooNav .nav-external {
+.VPComiCineNav .nav-external {
   display: inline-block;
   margin-inline-start: 4px;
   width: 11px;
@@ -171,7 +185,7 @@ html[lang^='en'] {
   opacity: 0.45;
 }
 
-.VPLimoooNav .nav-divider {
+.VPComiCineNav .nav-divider {
   display: none;
   width: 1px;
   height: 24px;
@@ -180,33 +194,33 @@ html[lang^='en'] {
   flex-shrink: 0;
 }
 
-.VPLimoooNav .nav-divider.nav-divider-lang-theme {
+.VPComiCineNav .nav-divider.nav-divider-lang-theme {
   display: block;
 }
 
 @media (max-width: 767px) {
-  .VPLimoooNav .nav-divider {
+  .VPComiCineNav .nav-divider {
     display: none;
   }
 
-  .VPLimoooNav .nav-divider.nav-divider-lang-theme {
+  .VPComiCineNav .nav-divider.nav-divider-lang-theme {
     display: none;
   }
 
-  .VPLimoooNav .lang-toggle,
-  .VPLimoooNav .nav-right > .appearance-switch {
+  .VPComiCineNav .lang-toggle,
+  .VPComiCineNav .nav-right > .appearance-switch {
     display: none;
   }
 }
 
 @media (min-width: 768px) {
-  .VPLimoooNav .nav-divider {
+  .VPComiCineNav .nav-divider {
     display: block;
   }
 }
 
 /* ── 图标按钮（社交链接，主站 .icon-btn） ── */
-.VPLimoooNav .icon-btn {
+.VPComiCineNav .icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -225,49 +239,49 @@ html[lang^='en'] {
     opacity 200ms var(--lm-ease-out);
 }
 
-.VPLimoooNav .icon-btn:active {
+.VPComiCineNav .icon-btn:active {
   transform: scale(0.92);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .VPLimoooNav .icon-btn:hover {
+  .VPComiCineNav .icon-btn:hover {
     background: var(--lm-highlight);
     opacity: 1;
   }
 }
 
-.VPLimoooNav .icon-btn svg {
+.VPComiCineNav .icon-btn svg {
   width: 18px;
   height: 18px;
   fill: currentColor;
 }
 
 @media (max-width: 767px) {
-  .VPLimoooNav .nav-social-link {
+  .VPComiCineNav .nav-social-link {
     display: none;
   }
 }
 
-.VPLimoooNav .nav-mobile-menu {
+.VPComiCineNav .nav-mobile-menu {
   position: relative;
   display: flex;
   align-items: center;
 }
 
 @media (min-width: 768px) {
-  .VPLimoooNav .nav-mobile-menu {
+  .VPComiCineNav .nav-mobile-menu {
     display: none;
   }
 }
 
 /* ── 语言切换（主站 .lang-btn + .theme-menu） ── */
-.VPLimoooNav .lang-toggle {
+.VPComiCineNav .lang-toggle {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.VPLimoooNav .lang-btn {
+.VPComiCineNav .lang-btn {
   display: flex;
   align-items: center;
   padding: 0 12px;
@@ -280,24 +294,24 @@ html[lang^='en'] {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .VPLimoooNav .lang-btn:hover {
+  .VPComiCineNav .lang-btn:hover {
     color: var(--lm-accent);
   }
 }
 
-.VPLimoooNav .lang-icon {
+.VPComiCineNav .lang-icon {
   width: 16px;
   height: 16px;
 }
 
-.VPLimoooNav .lang-chevron {
+.VPComiCineNav .lang-chevron {
   width: 14px;
   height: 14px;
   margin-inline-start: 4px;
   opacity: 0.6;
 }
 
-.VPLimoooNav .lang-menu {
+.VPComiCineNav .lang-menu {
   position: absolute;
   top: calc(100% + 4px);
   right: 0;
@@ -318,13 +332,13 @@ html[lang^='en'] {
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
 }
 
-.VPLimoooNav .lang-menu.open {
+.VPComiCineNav .lang-menu.open {
   opacity: 1;
   visibility: visible;
   transform: translateY(0) scale(1);
 }
 
-.VPLimoooNav .lang-option {
+.VPComiCineNav .lang-option {
   display: block;
   padding: 8px 14px;
   margin: 2px 0;
@@ -340,12 +354,12 @@ html[lang^='en'] {
   transition: background 150ms var(--lm-ease-out);
 }
 
-.VPLimoooNav .lang-option.selected {
+.VPComiCineNav .lang-option.selected {
   opacity: 1;
   background: var(--lm-highlight);
 }
 
-.VPLimoooNav .nav-menu-button {
+.VPComiCineNav .nav-menu-button {
   position: relative;
   z-index: 2;
   width: 3rem;
@@ -353,7 +367,7 @@ html[lang^='en'] {
   border-radius: 0;
 }
 
-.VPLimoooNav .nav-menu-icon {
+.VPComiCineNav .nav-menu-icon {
   position: relative;
   display: block;
   width: 1rem;
@@ -361,9 +375,9 @@ html[lang^='en'] {
   overflow: hidden;
 }
 
-.VPLimoooNav .nav-menu-icon .top,
-.VPLimoooNav .nav-menu-icon .middle,
-.VPLimoooNav .nav-menu-icon .bottom {
+.VPComiCineNav .nav-menu-icon .top,
+.VPComiCineNav .nav-menu-icon .middle,
+.VPComiCineNav .nav-menu-icon .bottom {
   position: absolute;
   inset-inline-start: 0;
   width: 1rem;
@@ -375,51 +389,51 @@ html[lang^='en'] {
     background-color 0.25s;
 }
 
-.VPLimoooNav .nav-menu-icon .top {
+.VPComiCineNav .nav-menu-icon .top {
   top: 0;
   transform: translateX(0);
 }
 
-.VPLimoooNav .nav-menu-icon .middle {
+.VPComiCineNav .nav-menu-icon .middle {
   top: 0.375rem;
   transform: translateX(0.5rem);
 }
 
-.VPLimoooNav .nav-menu-icon .bottom {
+.VPComiCineNav .nav-menu-icon .bottom {
   top: 0.75rem;
   transform: translateX(0.25rem);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .VPLimoooNav .nav-menu-button:not(.active):hover .top {
+  .VPComiCineNav .nav-menu-button:not(.active):hover .top {
     transform: translateX(0.25rem);
   }
 
-  .VPLimoooNav .nav-menu-button:not(.active):hover .middle {
+  .VPComiCineNav .nav-menu-button:not(.active):hover .middle {
     transform: translateX(0);
   }
 
-  .VPLimoooNav .nav-menu-button:not(.active):hover .bottom {
+  .VPComiCineNav .nav-menu-button:not(.active):hover .bottom {
     transform: translateX(0.5rem);
   }
 }
 
-.VPLimoooNav .nav-menu-button.active .top {
+.VPComiCineNav .nav-menu-button.active .top {
   top: 0.375rem;
   transform: rotate(225deg);
 }
 
-.VPLimoooNav .nav-menu-button.active .middle {
+.VPComiCineNav .nav-menu-button.active .middle {
   top: 0.375rem;
   transform: translateX(1rem);
 }
 
-.VPLimoooNav .nav-menu-button.active .bottom {
+.VPComiCineNav .nav-menu-button.active .bottom {
   top: 0.375rem;
   transform: rotate(135deg);
 }
 
-.VPLimoooNav .nav-screen {
+.VPComiCineNav .nav-screen {
   position: fixed;
   z-index: 1;
   inset-block: var(--vp-nav-height) 0;
@@ -437,7 +451,7 @@ html[lang^='en'] {
     visibility 0s linear 0.25s;
 }
 
-.VPLimoooNav .nav-screen.open {
+.VPComiCineNav .nav-screen.open {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -447,13 +461,13 @@ html[lang^='en'] {
     visibility 0s;
 }
 
-.VPLimoooNav .nav-screen-container {
+.VPComiCineNav .nav-screen-container {
   max-width: 18rem;
   margin: 0 auto;
   padding: 1.5rem 0 6rem;
 }
 
-.VPLimoooNav .nav-screen-link {
+.VPComiCineNav .nav-screen-link {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -469,16 +483,16 @@ html[lang^='en'] {
     color 0.25s;
 }
 
-.VPLimoooNav .nav-screen-link:hover,
-.VPLimoooNav .nav-screen-link.active {
+.VPComiCineNav .nav-screen-link:hover,
+.VPComiCineNav .nav-screen-link.active {
   color: var(--lm-accent);
 }
 
-.VPLimoooNav .nav-screen-languages {
+.VPComiCineNav .nav-screen-languages {
   margin-top: 1.5rem;
 }
 
-.VPLimoooNav .nav-screen-section-toggle {
+.VPComiCineNav .nav-screen-section-toggle {
   display: flex;
   align-items: center;
   width: 100%;
@@ -493,7 +507,7 @@ html[lang^='en'] {
   cursor: pointer;
 }
 
-.VPLimoooNav .nav-screen-chevron {
+.VPComiCineNav .nav-screen-chevron {
   width: 1rem;
   height: 1rem;
   margin-inline-start: auto;
@@ -504,19 +518,19 @@ html[lang^='en'] {
   transition: transform 0.25s;
 }
 
-.VPLimoooNav .nav-screen-language-icon {
+.VPComiCineNav .nav-screen-language-icon {
   width: 1rem;
   height: 1rem;
   margin-inline-end: 0.5rem;
 }
 
-.VPLimoooNav
+.VPComiCineNav
   .nav-screen-section-toggle[aria-expanded='true']
   .nav-screen-chevron {
   transform: rotate(-90deg);
 }
 
-.VPLimoooNav .nav-screen-language-list {
+.VPComiCineNav .nav-screen-language-list {
   margin: 0;
   padding: 0.25rem 0 0 1.5rem;
   list-style: none;
@@ -528,12 +542,12 @@ html[lang^='en'] {
     opacity 0.18s var(--lm-ease-out);
 }
 
-.VPLimoooNav .nav-screen-language-list.open {
+.VPComiCineNav .nav-screen-language-list.open {
   max-height: 12rem;
   opacity: 1;
 }
 
-.VPLimoooNav .nav-screen-language-link {
+.VPComiCineNav .nav-screen-language-link {
   display: block;
   line-height: 2.4615385;
   font-size: 0.8125rem;
@@ -541,11 +555,11 @@ html[lang^='en'] {
   text-decoration: none;
 }
 
-.VPLimoooNav .nav-screen-language-link.selected {
+.VPComiCineNav .nav-screen-language-link.selected {
   color: var(--lm-accent);
 }
 
-.VPLimoooNav .nav-screen-appearance {
+.VPComiCineNav .nav-screen-appearance {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -558,18 +572,18 @@ html[lang^='en'] {
   font-weight: 500;
 }
 
-.VPLimoooNav .nav-screen-appearance .appearance-switch {
+.VPComiCineNav .nav-screen-appearance .appearance-switch {
   display: block;
 }
 
-.VPLimoooNav .nav-screen-socials {
+.VPComiCineNav .nav-screen-socials {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
 }
 
-.VPLimoooNav .nav-screen-social-link {
+.VPComiCineNav .nav-screen-social-link {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -580,17 +594,17 @@ html[lang^='en'] {
   transition: opacity 0.25s;
 }
 
-.VPLimoooNav .nav-screen-social-link:hover {
+.VPComiCineNav .nav-screen-social-link:hover {
   opacity: 1;
 }
 
-.VPLimoooNav .nav-screen-social-link .VPIcon {
+.VPComiCineNav .nav-screen-social-link .VPIcon {
   width: 1.25rem;
   height: 1.25rem;
 }
 
 @media (min-width: 48rem) {
-  .VPLimoooNav .nav-screen {
+  .VPComiCineNav .nav-screen {
     display: none;
   }
 }
@@ -601,29 +615,29 @@ html.nav-screen-open body {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .VPLimoooNav .lang-option:hover {
+  .VPComiCineNav .lang-option:hover {
     opacity: 1;
     background: var(--lm-highlight);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .VPLimoooNav .nav-menu-icon .top,
-  .VPLimoooNav .nav-menu-icon .middle,
-  .VPLimoooNav .nav-menu-icon .bottom,
-  .VPLimoooNav .nav-screen,
-  .VPLimoooNav .nav-screen-chevron,
-  .VPLimoooNav .nav-screen-language-list {
+  .VPComiCineNav .nav-menu-icon .top,
+  .VPComiCineNav .nav-menu-icon .middle,
+  .VPComiCineNav .nav-menu-icon .bottom,
+  .VPComiCineNav .nav-screen,
+  .VPComiCineNav .nav-screen-chevron,
+  .VPComiCineNav .nav-screen-language-list {
     transition-duration: 0.01ms;
   }
 }
 
-.VPLimoooNav .lang-flag {
+.VPComiCineNav .lang-flag {
   margin-inline-end: 6px;
 }
 
 /* ── 深浅切换（主站 .appearance-switch） ── */
-.VPLimoooNav .appearance-switch {
+.VPComiCineNav .appearance-switch {
   position: relative;
   display: block;
   width: 40px;
@@ -640,12 +654,12 @@ html.nav-screen-open body {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .VPLimoooNav .appearance-switch:hover {
+  .VPComiCineNav .appearance-switch:hover {
     border-color: var(--lm-accent);
   }
 }
 
-.VPLimoooNav .appearance-check {
+.VPComiCineNav .appearance-check {
   position: absolute;
   top: 1px;
   left: 1px;
@@ -658,11 +672,11 @@ html.nav-screen-open body {
   transition: transform 250ms var(--lm-ease-out);
 }
 
-.dark .VPLimoooNav .appearance-check {
+.dark .VPComiCineNav .appearance-check {
   transform: translateX(18px);
 }
 
-.VPLimoooNav .appearance-icon {
+.VPComiCineNav .appearance-icon {
   position: relative;
   display: block;
   width: 18px;
@@ -671,7 +685,7 @@ html.nav-screen-open body {
   overflow: hidden;
 }
 
-.VPLimoooNav .appearance-icon svg {
+.VPComiCineNav .appearance-icon svg {
   position: absolute;
   top: 3px;
   left: 3px;
@@ -681,26 +695,26 @@ html.nav-screen-open body {
   transition: opacity 250ms var(--lm-ease-out);
 }
 
-.VPLimoooNav .appearance-icon .sun {
+.VPComiCineNav .appearance-icon .sun {
   opacity: 1;
 }
 
-.VPLimoooNav .appearance-icon .moon {
+.VPComiCineNav .appearance-icon .moon {
   opacity: 0;
 }
 
-.dark .VPLimoooNav .appearance-icon .sun {
+.dark .VPComiCineNav .appearance-icon .sun {
   opacity: 0;
 }
 
-.dark .VPLimoooNav .appearance-icon .moon {
+.dark .VPComiCineNav .appearance-icon .moon {
   opacity: 1;
 }
 
 /* ══════════════════════════════════════════════════════════════
    页脚（对应 _footer.html）
    ══════════════════════════════════════════════════════════════ */
-.VPLimoooFooter {
+.VPComiCineFooter {
   position: relative;
   z-index: var(--vp-z-index-footer);
   width: 100%;
@@ -710,13 +724,13 @@ html.nav-screen-open body {
 
 /* 有侧栏的文档页：页脚与正文右移，避免钻到固定侧栏下面 */
 @media (min-width: 60rem) {
-  .VPLimoooFooter.has-sidebar {
+  .VPComiCineFooter.has-sidebar {
     padding-inline-start: var(--vp-sidebar-width);
   }
 }
 
 @media (min-width: 90rem) {
-  .VPLimoooFooter.has-sidebar {
+  .VPComiCineFooter.has-sidebar {
     padding-inline-end: calc((100% - var(--vp-layout-max-width)) / 2);
     padding-inline-start: calc(
       (100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)
@@ -724,7 +738,7 @@ html.nav-screen-open body {
   }
 }
 
-.VPLimoooFooter .footer-link {
+.VPComiCineFooter .footer-link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -736,7 +750,7 @@ html.nav-screen-open body {
   text-decoration: none;
 }
 
-.VPLimoooFooter .footer-text {
+.VPComiCineFooter .footer-text {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -751,33 +765,33 @@ html.nav-screen-open body {
   line-height: 1;
 }
 
-.VPLimoooFooter .footer-text > span,
-.VPLimoooFooter .footer-text > a {
+.VPComiCineFooter .footer-text > span,
+.VPComiCineFooter .footer-text > a {
   white-space: nowrap;
 }
 
-.VPLimoooFooter .footer-text > .footer-item {
+.VPComiCineFooter .footer-text > .footer-item {
   display: inline-block;
 }
 
-.VPLimoooFooter .footer-text > .footer-item:not(:first-child)::before {
+.VPComiCineFooter .footer-text > .footer-item:not(:first-child)::before {
   content: '·';
   margin: 0 0.55em;
   opacity: 0.7;
 }
 
 @media (max-width: 559px) {
-  .VPLimoooFooter .footer-text > .footer-copyright {
+  .VPComiCineFooter .footer-text > .footer-copyright {
     flex: 0 0 100%;
     white-space: nowrap;
   }
 
-  .VPLimoooFooter .footer-text > .footer-copyright + .footer-item::before {
+  .VPComiCineFooter .footer-text > .footer-copyright + .footer-item::before {
     content: none;
   }
 }
 
-.VPLimoooFooter .footer-brand {
+.VPComiCineFooter .footer-brand {
   font-family: 'Baloo 2', ui-rounded, system-ui, sans-serif;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -785,7 +799,7 @@ html.nav-screen-open body {
   font-size-adjust: 0.6552;
 }
 
-.VPLimoooFooter .footer-source-link {
+.VPComiCineFooter .footer-source-link {
   color: inherit;
   text-decoration: underline;
   white-space: nowrap;

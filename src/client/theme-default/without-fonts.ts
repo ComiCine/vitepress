@@ -8,8 +8,8 @@ import './styles/components/vp-code-group.css'
 import './styles/components/vp-doc.css'
 import './styles/components/vp-sponsor.css'
 
-// Limooo fork 定制：页头/页脚与主站 base.html 对齐（颜色令牌 + 布局）
-import './styles/limooo.css'
+// ComiCine fork 定制：页头/页脚与主站 base.html 对齐（颜色令牌 + 布局）
+import './styles/comicine.css'
 
 import type { Theme } from 'vitepress'
 
@@ -27,8 +27,8 @@ export { default as VPHomeSponsors } from './components/VPHomeSponsors.vue'
 export { default as VPIcon } from './components/VPIcon.vue'
 export { default as VPImage } from './components/VPImage.vue'
 export { default as VPLink } from './components/VPLink.vue'
-export { default as VPLimoooNav } from './components/VPLimoooNav.vue'
-export { default as VPLimoooFooter } from './components/VPLimoooFooter.vue'
+export { default as VPComiCineNav } from './components/VPComiCineNav.vue'
+export { default as VPComiCineFooter } from './components/VPComiCineFooter.vue'
 export { default as VPNavBarSearch } from './components/VPNavBarSearch.vue'
 export { default as VPSocialLink } from './components/VPSocialLink.vue'
 export { default as VPSocialLinks } from './components/VPSocialLinks.vue'

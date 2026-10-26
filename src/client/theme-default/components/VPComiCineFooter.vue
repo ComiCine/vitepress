@@ -1,10 +1,10 @@
 <script setup lang="ts">
 /**
- * Limooo 页脚 —— 结构/样式对齐主站 Flask/src/templates/_footer.html。
+ * ComiCine footer — structure and styling match the main site footer.
  *
  * 这是 fork 定制件：不使用 VitePress 自带的 VPFooter。
- * 主站页面不滚动所以页脚 position:fixed；文档站要滚动，这里走正常文档流，
- * 其余（字体、字号、字距、分隔符、Baloo 2 品牌字）与主站一致。
+ * The main site is fixed-height, but the docs page scrolls and keeps its footer in normal flow.
+ * Typography and separators follow the main site.
  */
 import { computed, onMounted, ref } from 'vue'
 import { useData } from 'vitepress'
@@ -50,7 +50,7 @@ const show = computed(
 <template>
   <footer
     v-if="show"
-    class="VPLimoooFooter"
+    class="VPComiCineFooter"
     :class="{ 'has-sidebar': hasSidebar }"
     id="global-footer"
   >
