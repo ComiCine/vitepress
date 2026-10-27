@@ -204,7 +204,7 @@ onBeforeUnmount(() => {
   <div class="VPComiCineNav">
     <div class="nav-inner">
       <a :href="brandLink" class="nav-brand-link" aria-label="ComiCine">
-        <img class="nav-brand-logo" src="/comicine.svg?v=1" alt="" width="64" height="64">
+        <img class="nav-brand-logo" src="/comicine-favicon.svg?v=1" alt="" width="64" height="64">
       </a>
 
       <div class="nav-right">
