@@ -28,7 +28,7 @@ const {
   closeScreen
 } = useNav()
 
-const comicine = computed<any>(() => (theme.value as any).comicine ?? (theme.value as any).limooo ?? {})
+const comicine = computed<any>(() => (theme.value as any).comicine ?? {})
 const languages = computed<LangItem[]>(() => comicine.value.languages ?? [])
 const defaultLang = computed(
   () =>
