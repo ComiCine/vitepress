@@ -3,7 +3,7 @@
  * ComiCine header — structure and styling match the main site navigation.
  *
  * This fork component replaces VitePress default navigation.
- * The shared SVG keeps the brand mark consistent across the main and docs sites.
+ * The brand name uses the same text wordmark as the main site.
  */
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useData, useRoute, useRouter } from 'vitepress'
@@ -204,7 +204,7 @@ onBeforeUnmount(() => {
   <div class="VPComiCineNav">
     <div class="nav-inner">
       <a :href="brandLink" class="nav-brand-link" aria-label="ComiCine">
-        <img class="nav-brand-logo" src="/comicine-favicon.svg?v=1" alt="" width="64" height="64">
+        <span class="nav-brand brand-word">ComiCine</span>
       </a>
 
       <div class="nav-right">
