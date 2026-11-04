@@ -15,12 +15,6 @@ const { currentLang } = useLangs()
       <bdi>{{ theme.notFound?.title ?? 'PAGE NOT FOUND' }}</bdi>
     </h1>
     <div class="divider" />
-    <blockquote class="quote">
-      <bdi>{{
-        theme.notFound?.quote ??
-        "But if you don't change your direction, and if you keep looking, you may end up where you are heading."
-      }}</bdi>
-    </blockquote>
 
     <div class="action">
       <a
@@ -61,22 +55,14 @@ const { currentLang } = useLangs()
 }
 
 .divider {
-  margin: 1.5rem auto 1.125rem;
+  margin: 1.5rem auto;
   width: 4rem;
   height: 1px;
   background-color: var(--vp-c-divider);
 }
 
-.quote {
-  margin: 0 auto;
-  max-width: 16rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--vp-c-text-2);
-}
-
 .action {
-  padding-top: 1.25rem;
+  padding-top: 0;
 }
 
 .link {
