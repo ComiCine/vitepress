@@ -169,7 +169,7 @@ const pageName = computed(() => {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 3rem));
-  padding-bottom: 2rem;
+  padding-bottom: 4rem;
 }
 
 .content {
