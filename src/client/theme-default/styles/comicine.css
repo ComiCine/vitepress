@@ -80,9 +80,11 @@ html[lang^='en'] {
    页头（对应 base.html 的 nav.site-nav）
    ══════════════════════════════════════════════════════════════ */
 .VPComiCineNav {
+  box-sizing: border-box;
   width: 100%;
   height: var(--lm-nav-height);
   background: var(--lm-bg);
+  border-bottom: 1px solid var(--lm-line);
   /* 父级 .VPNav 是 pointer-events:none（给整页点击让路），导航自己要收回点击 */
   pointer-events: auto;
 }
